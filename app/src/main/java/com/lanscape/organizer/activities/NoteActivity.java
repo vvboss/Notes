@@ -54,7 +54,7 @@ public class NoteActivity extends AppCompatActivity {
     private String originalTitle = "";
     private String originalNote = "";
     private String originalColor = "";
-    final int MAX_CHAR_LIMIT = 100;
+    final int MAX_CHAR_LIMIT = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
