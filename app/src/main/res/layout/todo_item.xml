@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:padding="4dp"
+    android:layout_marginTop="4dp"
+    android:gravity="center_vertical">
+
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:buttonTint="@color/textAndIconColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginStart="4dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:button="@drawable/ic_checked_state"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <EditText
+        android:id="@+id/edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_weight="1"
+        android:background="@null"
+        android:gravity="top|start"
+        android:hint="@string/todo_item_hint"
+        android:imeOptions="actionDone"
+        android:importantForAccessibility="no"
+        android:importantForAutofill="no"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLines="10"
+        android:scrollHorizontally="false"
+        android:singleLine="false"
+        android:textColor="@color/textAndIconColor"
+        android:textColorHighlight="@color/textHighlightColor"
+        android:textSize="16sp"
+        tools:ignore="TouchTargetSizeCheck,TextContrastCheck,VisualLintTextFieldSize" />
+
+
+    <ImageView
+        android:id="@+id/delete_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_gravity="top"
+        android:clickable="true"
+        android:contentDescription="@string/delete_item_desc"
+        android:focusable="true"
+        android:src="@drawable/ic_close_or_clear"
+        app:tint="@color/hintAndIconLowContrastColor"
+        tools:ignore="TouchTargetSizeCheck" />
+</LinearLayout>

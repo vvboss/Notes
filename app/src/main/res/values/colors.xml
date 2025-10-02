@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimaryDark">#313131</color>
+    <color name="colorAccent">#006EF8</color>
+    <color name="colorControlHighlight">#BDBDBD</color>
+    <color name="whiteColor">#FFFFFF</color>
+    <color name="strokeAndBorderColor">#BDBDBD</color>
+    <color name="textAndIconColor">#515151</color>
+    <color name="hintAndIconLowContrastColor">#717171</color>
+    <color name="selectedNoteBackground">#EEEEEE</color>
+    <color name="textHighlightColor">#D3CFCF</color>
+    <color name="deleteIconColor">#E74030</color>
+    <color name="searchHighlightColor">#F0B040</color>
+
+    <color name="note_lavender">#B4C4F0</color>
+    <color name="note_green">#B4F0B4</color>
+    <color name="note_pink">#F0B8B8</color>
+    <color name="note_peach">#F0CBA4</color>
+    <color name="note_skyblue">#A4E4F0</color>
+    <color name="note_purple">#D4B4F0</color>
+    <color name="note_yellow">#F5E79C</color>
+    <color name="note_aqua">#94E4ED</color>
+    <color name="note_mint">#90E9B9</color>
+</resources>

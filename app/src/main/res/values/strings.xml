@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Landscape</string>
+    <string name="greet">Notes</string>
+    <string name="search_hint">Search your notes and tasks</string>
+    <string name="img_more_desc">More Option</string>
+    <string name="img_back_desc">Back</string>
+    <string name="img_voice_desc">Voice Search</string>
+    <string name="img_search_desc">Search Icon</string>
+    <string name="edt_note_hint">Description</string>
+    <string name="edt_title_hint">Note Title</string>
+    <string name="tv_date_text">00 Jan 0000</string>
+    <string name="select_count_text">0 selected</string>
+    <string name="delete">Delete</string>
+    <string name="select_all_desc">Select All</string>
+    <string name="fab_add_desc">Add Note</string>
+    <string name="add_items_in_todo">List Tasks</string>
+    <string name="delete_item_desc">Delete item</string>
+    <string name="todo_item_hint">To-do item</string>
+    <string name="bottom_sheet_title">Select Background</string>
+    <string name="dummy_calendar_format">19/06/25 | Thu | 12:01 AM</string>
+    <string name="more_todos">+ %1$d more</string>
+    <string name="insert_image_desc">Insert Image</string>
+    <string name="empty_notes_indication">Your notes appear here</string>
+    <string name="no_matches_found">No matches found</string>
+    <string name="empty_state_image_desc">Illustration for empty state</string>
+</resources>

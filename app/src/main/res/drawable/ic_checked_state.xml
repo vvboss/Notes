@@ -1,0 +1,5 @@
+<!-- res/drawable/ic_todo.xml -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true" android:drawable="@drawable/ic_todo_checked" />
+    <item android:drawable="@drawable/ic_todo_unchecked" />
+</selector>

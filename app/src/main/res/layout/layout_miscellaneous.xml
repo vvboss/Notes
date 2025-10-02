@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottomSheetContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    app:behavior_peekHeight="50dp"
+    app:behavior_hideable="true"
+    app:layout_behavior="@string/bottom_sheet_behavior">
+
+    <View
+        android:id="@+id/outside_touch_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent" />
+
+        <LinearLayout
+            android:id="@+id/layoutMiscellaneous"
+            android:orientation="vertical"
+            android:background="@drawable/background_miscellaneous"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:padding="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp">
+
+            <TextView
+                android:id="@+id/textMiscellaneous"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:layout_marginBottom="6dp"
+                android:text="@string/bottom_sheet_title"
+                android:textColor="@color/textAndIconColor"
+                android:textStyle="bold"
+                android:textSize="14sp"/>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:scrollbars="none"
+                tools:ignore="SpeakableTextPresentCheck">
+
+                <LinearLayout
+                    android:id="@+id/layoutNoteColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <View
+                            android:id="@+id/viewColor0"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/background_note_color0" />
+
+                        <ImageView
+                            android:id="@+id/imageColor0"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:importantForAccessibility="no"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_done"
+                            tools:ignore="ImageContrastCheck" />
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <View
+                            android:id="@+id/viewColor1"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/background_note_color1"
+                            android:importantForAccessibility="no" />
+
+                        <ImageView
+                            android:id="@+id/imageColor1"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:importantForAccessibility="no"
+                            android:padding="10dp"
+                            tools:ignore="ImageContrastCheck" />
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <View
+                            android:id="@+id/viewColor2"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/background_note_color2"
+                            android:importantForAccessibility="no" />
+
+                        <ImageView
+                            android:id="@+id/imageColor2"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:padding="10dp"
+                            tools:ignore="ContentDescription,ImageContrastCheck" />
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <View
+                            android:id="@+id/viewColor3"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/background_note_color3" />
+
+                        <ImageView
+                            android:id="@+id/imageColor3"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:importantForAccessibility="no"
+                            android:padding="10dp"
+                            tools:ignore="ImageContrastCheck" />
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <View
+                            android:id="@+id/viewColor4"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/background_note_color4"
+                            android:importantForAccessibility="no" />
+
+                        <ImageView
+                            android:id="@+id/imageColor4"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:padding="10dp"
+                            tools:ignore="ContentDescription,ImageContrastCheck" />
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <View
+                            android:id="@+id/viewColor5"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/background_note_color5"
+                            android:importantForAccessibility="no" />
+
+                        <ImageView
+                            android:id="@+id/imageColor5"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:padding="10dp"
+                            tools:ignore="ContentDescription,ImageContrastCheck" />
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <View
+                            android:id="@+id/viewColor6"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/background_note_color6" />
+
+                        <ImageView
+                            android:id="@+id/imageColor6"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:importantForAccessibility="no"
+                            android:padding="10dp"
+                            tools:ignore="ImageContrastCheck" />
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <View
+                            android:id="@+id/viewColor7"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/background_note_color7" />
+
+                        <ImageView
+                            android:id="@+id/imageColor7"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:importantForAccessibility="no"
+                            android:padding="10dp"
+                            tools:ignore="ImageContrastCheck" />
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <View
+                            android:id="@+id/viewColor8"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/background_note_color8" />
+
+                        <ImageView
+                            android:id="@+id/imageColor8"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:importantForAccessibility="no"
+                            android:padding="10dp"
+                            tools:ignore="ImageContrastCheck" />
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <View
+                            android:id="@+id/viewColor9"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/background_note_color9" />
+
+                        <ImageView
+                            android:id="@+id/imageColor9"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:importantForAccessibility="no"
+                            android:padding="10dp"
+                            tools:ignore="ImageContrastCheck" />
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+        </LinearLayout>
+
+</FrameLayout>

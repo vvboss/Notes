@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinator_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="10dp"
+    android:background="@color/whiteColor"
+    tools:context=".activities.NoteActivity">
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="0dp"
+        android:clipToPadding="false"
+        android:paddingBottom="10dp"
+        app:layout_anchor="@+id/scroll_view"
+        app:layout_anchorGravity="center"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="false">
+
+            <ImageView
+                android:id="@+id/img_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="20dp"
+                android:contentDescription="@string/img_back_desc"
+                android:scaleType="center"
+                android:src="@drawable/ic_close_or_clear"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/btn_toggle_todo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:src="@drawable/ic_todo_checked"
+                app:layout_constraintEnd_toStartOf="@id/img_more"
+                app:layout_constraintTop_toTopOf="@id/img_close"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/img_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="13dp"
+                android:contentDescription="@string/img_more_desc"
+                android:scaleType="center"
+                android:src="@drawable/ic_palette"
+                app:layout_constraintBottom_toBottomOf="@id/img_close"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/edt_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:background="@null"
+                android:hint="@string/edt_title_hint"
+                android:imeOptions="flagNoEnterAction"
+                android:importantForAutofill="no"
+                android:includeFontPadding="false"
+                android:inputType="textCapSentences | textMultiLine"
+                android:minHeight="48dp"
+                android:padding="8dp"
+                android:textColor="@color/textAndIconColor"
+                android:textColorHighlight="@color/textHighlightColor"
+                android:textColorHint="@color/hintAndIconLowContrastColor"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/img_close"
+                tools:ignore="VisualLintTextFieldSize" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/dummy_calendar_format"
+                android:textColor="@color/hintAndIconLowContrastColor"
+                android:textSize="11sp"
+                app:layout_constraintEnd_toEndOf="@id/edt_title"
+                app:layout_constraintStart_toStartOf="@id/edt_title"
+                app:layout_constraintTop_toBottomOf="@id/edt_title" />
+
+            <EditText
+                android:id="@+id/edt_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@null"
+                android:gravity="top"
+                android:hint="@string/edt_note_hint"
+                android:importantForAutofill="no"
+                android:includeFontPadding="false"
+                android:inputType="textMultiLine"
+                android:minHeight="200dp"
+                android:overScrollMode="ifContentScrolls"
+                android:padding="8dp"
+                android:scrollbars="vertical"
+                android:textColor="@color/textAndIconColor"
+                android:textColorHighlight="@color/textHighlightColor"
+                android:textColorHint="@color/hintAndIconLowContrastColor"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_date"
+                tools:ignore="DuplicateSpeakableTextCheck,VisualLintTextFieldSize" />
+
+            <LinearLayout
+                android:id="@+id/todo_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edt_title" />
+
+            <LinearLayout
+                android:id="@+id/lin_add_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="@id/img_close"
+                app:layout_constraintTop_toBottomOf="@id/todo_container"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:id="@+id/btn_add_todo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/ic_add"
+                    app:tint="@color/textAndIconColor"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/tv_add_item_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal |center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="@string/add_items_in_todo"
+                    android:textColor="@color/textAndIconColor"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <include layout="@layout/layout_miscellaneous"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
