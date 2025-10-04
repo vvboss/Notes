@@ -1,6 +1,6 @@
-package com.lanscape.organizer.listeners;
+package com.lata.notes.listeners;
 
-import com.lanscape.organizer.entities.Note;
+import com.lata.notes.entities.Note;
 
 public interface NotesListener {
     void onNoteClicked(Note note, int position);

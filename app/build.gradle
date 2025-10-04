@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace 'com.lanscape.organizer'
+    namespace 'com.lata.notes'
     compileSdk 35
 
     defaultConfig {

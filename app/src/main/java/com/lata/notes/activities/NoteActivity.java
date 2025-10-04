@@ -1,4 +1,4 @@
-package com.lanscape.organizer.activities;
+package com.lata.notes.activities;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
@@ -25,10 +25,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.lanscape.organizer.R;
-import com.lanscape.organizer.database.NotesDatabase;
-import com.lanscape.organizer.entities.Note;
-import com.lanscape.organizer.utils.KeyboardUtils;
+import com.lata.notes.R;
+import com.lata.notes.database.NotesDatabase;
+import com.lata.notes.entities.Note;
+import com.lata.notes.utils.KeyboardUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;

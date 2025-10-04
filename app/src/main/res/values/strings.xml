@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Landscape</string>
+    <string name="app_name">Notes</string>
     <string name="greet">Notes</string>
     <string name="search_hint">Search your notes and tasks</string>
     <string name="img_more_desc">More Option</string>

@@ -1,11 +1,11 @@
-package com.lanscape.organizer.database;
+package com.lata.notes.database;
 
 import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import com.lanscape.organizer.dao.NoteDao;
-import com.lanscape.organizer.entities.Note;
+import com.lata.notes.dao.NoteDao;
+import com.lata.notes.entities.Note;
 
 @Database(entities = {Note.class}, version = 1, exportSchema = false)
 public abstract class NotesDatabase extends RoomDatabase {

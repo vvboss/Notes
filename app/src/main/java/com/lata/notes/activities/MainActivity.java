@@ -1,4 +1,4 @@
-package com.lanscape.organizer.activities;
+package com.lata.notes.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -32,12 +32,12 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.lanscape.organizer.R;
-import com.lanscape.organizer.adapters.NotesAdapter;
-import com.lanscape.organizer.database.NotesDatabase;
-import com.lanscape.organizer.entities.Note;
-import com.lanscape.organizer.listeners.NotesListener;
-import com.lanscape.organizer.utils.KeyboardUtils;
+import com.lata.notes.R;
+import com.lata.notes.adapters.NotesAdapter;
+import com.lata.notes.database.NotesDatabase;
+import com.lata.notes.entities.Note;
+import com.lata.notes.listeners.NotesListener;
+import com.lata.notes.utils.KeyboardUtils;
 
 import java.util.ArrayList;
 import java.util.List;

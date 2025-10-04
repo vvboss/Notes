@@ -1,4 +1,4 @@
-package com.lanscape.organizer.utils;
+package com.lata.notes.utils;
 
 import android.content.Context;
 import android.view.View;

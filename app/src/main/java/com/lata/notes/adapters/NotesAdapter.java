@@ -1,4 +1,4 @@
-package com.lanscape.organizer.adapters;
+package com.lata.notes.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -21,9 +21,9 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.lanscape.organizer.R;
-import com.lanscape.organizer.entities.Note;
-import com.lanscape.organizer.listeners.NotesListener;
+import com.lata.notes.R;
+import com.lata.notes.entities.Note;
+import com.lata.notes.listeners.NotesListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;

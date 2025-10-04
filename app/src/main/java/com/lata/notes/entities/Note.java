@@ -1,4 +1,4 @@
-package com.lanscape.organizer.entities;
+package com.lata.notes.entities;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
