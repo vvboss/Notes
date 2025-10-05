@@ -53,13 +53,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="13dp"
+                android:layout_marginEnd="45dp"
                 android:contentDescription="@string/img_more_desc"
                 android:scaleType="center"
                 android:src="@drawable/ic_palette"
                 app:layout_constraintBottom_toBottomOf="@id/img_close"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/img_share"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/img_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/img_share_desc"
+                android:src="@drawable/ic_share"
+                app:layout_constraintStart_toEndOf="@id/img_more"
+                app:layout_constraintTop_toTopOf="@id/img_more"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
             <EditText
                 android:id="@+id/edt_title"

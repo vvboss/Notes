@@ -1,6 +1,7 @@
 package com.lata.notes.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,7 +46,7 @@ public class NoteActivity extends AppCompatActivity {
     private TextView textDate;
     private LinearLayout todoContainer, linAddItem;
     private Typeface tf_bold, tf_regular;
-    private ImageView btnToggleTodo;
+    private ImageView btnToggleTodo, imgShare;
     private boolean isTodoMode = false;
     private CoordinatorLayout coordinatorLayout;
     private ScrollView scrollView;
@@ -66,6 +68,7 @@ public class NoteActivity extends AppCompatActivity {
         textDate = findViewById(R.id.tv_date);
         todoContainer = findViewById(R.id.todo_container);
         btnToggleTodo = findViewById(R.id.btn_toggle_todo);
+        imgShare = findViewById(R.id.img_share);
         coordinatorLayout = findViewById(R.id.coordinator_root);
         scrollView = findViewById(R.id.scroll_view);
         linAddItem = findViewById(R.id.lin_add_item);
@@ -90,6 +93,7 @@ public class NoteActivity extends AppCompatActivity {
         }
 
         btnToggleTodo.setOnClickListener(v -> toggleMode());
+        imgShare.setOnClickListener(v -> shareNote());
 
         edtTitle.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_CHAR_LIMIT)});
         edtTitle.setOnKeyListener((v, keyCode, event) -> {
@@ -225,6 +229,29 @@ public class NoteActivity extends AppCompatActivity {
             }
         }
     }
+
+    private void shareNote() {
+
+        String title = edtTitle.getText().toString().trim();
+        String content = edtNote.getText().toString().trim();
+
+        if (title.isEmpty() && content.isEmpty()) {
+            Toast.makeText(this, "Nothing to share", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        StringBuilder shareText = new StringBuilder();
+        if (!title.isEmpty()) shareText.append("📝 ").append(title).append("\n\n");
+        if (!content.isEmpty()) shareText.append(content);
+
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "My Note");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shareText.toString());
+
+        startActivity(Intent.createChooser(shareIntent, "Share note via"));
+    }
+
 
     private void addTodoItem(String text, Boolean isChecked, boolean focus) {
         View view = getLayoutInflater().inflate(R.layout.todo_item, todoContainer, false);

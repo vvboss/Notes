@@ -3,6 +3,7 @@
     <string name="greet">Notes</string>
     <string name="search_hint">Search your notes and tasks</string>
     <string name="img_more_desc">More Option</string>
+    <string name="img_share_desc">Share Note</string>
     <string name="img_back_desc">Back</string>
     <string name="img_voice_desc">Voice Search</string>
     <string name="img_search_desc">Search Icon</string>
