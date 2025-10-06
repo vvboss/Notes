@@ -46,7 +46,7 @@ public class NoteActivity extends AppCompatActivity {
     private TextView textDate;
     private LinearLayout todoContainer, linAddItem;
     private Typeface tf_bold, tf_regular;
-    private ImageView btnToggleTodo, imgShare;
+    private ImageView btnToggleTodo;
     private boolean isTodoMode = false;
     private CoordinatorLayout coordinatorLayout;
     private ScrollView scrollView;
@@ -68,7 +68,7 @@ public class NoteActivity extends AppCompatActivity {
         textDate = findViewById(R.id.tv_date);
         todoContainer = findViewById(R.id.todo_container);
         btnToggleTodo = findViewById(R.id.btn_toggle_todo);
-        imgShare = findViewById(R.id.img_share);
+        ImageView imgShare = findViewById(R.id.img_share);
         coordinatorLayout = findViewById(R.id.coordinator_root);
         scrollView = findViewById(R.id.scroll_view);
         linAddItem = findViewById(R.id.lin_add_item);
@@ -230,20 +230,73 @@ public class NoteActivity extends AppCompatActivity {
         }
     }
 
+//    private void shareNote() {
+//
+//        String title = edtTitle.getText().toString().trim();
+//        String content = edtNote.getText().toString().trim();
+//
+//        if (title.isEmpty() && content.isEmpty()) {
+//            Toast.makeText(this, "Nothing to share", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//        StringBuilder shareText = new StringBuilder();
+//        if (!title.isEmpty()) shareText.append(title).append("\n\n");
+//        if (!content.isEmpty()) shareText.append(content);
+//
+//        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+//        shareIntent.setType("text/plain");
+//        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "My Note");
+//        shareIntent.putExtra(Intent.EXTRA_TEXT, shareText.toString());
+//
+//        startActivity(Intent.createChooser(shareIntent, "Share note via"));
+//    }
+
     private void shareNote() {
-
         String title = edtTitle.getText().toString().trim();
-        String content = edtNote.getText().toString().trim();
+        StringBuilder shareText = new StringBuilder();
 
-        if (title.isEmpty() && content.isEmpty()) {
-            Toast.makeText(this, "Nothing to share", Toast.LENGTH_SHORT).show();
-            return;
+        if (!title.isEmpty()) {
+            shareText.append(title).append("\n\n");
         }
 
-        StringBuilder shareText = new StringBuilder();
-        if (!title.isEmpty()) shareText.append("📝 ").append(title).append("\n\n");
-        if (!content.isEmpty()) shareText.append(content);
+        if (isTodoMode) {
+            StringBuilder todoBuilder = new StringBuilder();
+            for (int i = 0; i < todoContainer.getChildCount(); i++) {
+                View view = todoContainer.getChildAt(i);
+                CheckBox checkBox = view.findViewById(R.id.checkbox);
+                EditText editText = view.findViewById(R.id.edit_text);
 
+                if (editText != null) {
+                    String text = editText.getText().toString().trim();
+                    if (!text.isEmpty()) {
+                        String checkboxSymbol = (checkBox != null && checkBox.isChecked()) ? "- [x] " : "- [ ] ";
+                        todoBuilder.append(checkboxSymbol).append(text).append("\n");
+                    }
+                }
+            }
+
+            if (todoBuilder.length() == 0) {
+                Toast.makeText(this, "No To-Do items to share", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            shareText.append(todoBuilder.toString().trim());
+
+        } else {
+            String content = edtNote.getText().toString().trim();
+
+            if (content.isEmpty() && title.isEmpty()) {
+                Toast.makeText(this, "Nothing to share", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (!content.isEmpty()) {
+                shareText.append(content);
+            }
+        }
+
+        // Create and launch the share intent
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, "My Note");
@@ -320,8 +373,7 @@ public class NoteActivity extends AppCompatActivity {
         editText.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
-            @Override
-            public void afterTextChanged(Editable s) {
+            @Override public void afterTextChanged(Editable s) {
                 String currentText = s.toString().trim();
                 boolean notEmpty = !currentText.isEmpty();
                 boolean hasFocus = editText.hasFocus();
@@ -479,7 +531,6 @@ public class NoteActivity extends AppCompatActivity {
         }
         new SaveNoteTask().execute();
     }
-
 
     private String getTodoAsJson() {
         JSONArray jsonArray = new JSONArray();
