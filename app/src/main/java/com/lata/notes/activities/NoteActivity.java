@@ -82,6 +82,8 @@ public class NoteActivity extends AppCompatActivity {
         textDate.setTypeface(tf_regular);
         textAddItemHint.setTypeface(tf_regular);
 
+        handleIncomingShare();
+
         textDate.setText(new SimpleDateFormat("dd/MM/yy | EEE | hh:mm a", Locale.getDefault()).format(new Date()));
         selectedNoteColor = "#FFFFFF";
 
@@ -230,34 +232,13 @@ public class NoteActivity extends AppCompatActivity {
         }
     }
 
-//    private void shareNote() {
-//
-//        String title = edtTitle.getText().toString().trim();
-//        String content = edtNote.getText().toString().trim();
-//
-//        if (title.isEmpty() && content.isEmpty()) {
-//            Toast.makeText(this, "Nothing to share", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//        StringBuilder shareText = new StringBuilder();
-//        if (!title.isEmpty()) shareText.append(title).append("\n\n");
-//        if (!content.isEmpty()) shareText.append(content);
-//
-//        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-//        shareIntent.setType("text/plain");
-//        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "My Note");
-//        shareIntent.putExtra(Intent.EXTRA_TEXT, shareText.toString());
-//
-//        startActivity(Intent.createChooser(shareIntent, "Share note via"));
-//    }
-
     private void shareNote() {
+
         String title = edtTitle.getText().toString().trim();
         StringBuilder shareText = new StringBuilder();
 
         if (!title.isEmpty()) {
-            shareText.append(title).append("\n\n");
+            shareText.append("##### ").append(title).append("\n\n");
         }
 
         if (isTodoMode) {
@@ -296,7 +277,6 @@ public class NoteActivity extends AppCompatActivity {
             }
         }
 
-        // Create and launch the share intent
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, "My Note");
@@ -305,6 +285,53 @@ public class NoteActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(shareIntent, "Share note via"));
     }
 
+    private void handleIncomingShare() {
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+                String sharedSubject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
+
+                if (sharedText != null && !sharedText.trim().isEmpty()) {
+                    edtTitle.setText(sharedSubject != null && !sharedSubject.isEmpty() ? sharedSubject : "Shared Note");
+
+                    if (sharedText.contains("[ ]") || sharedText.contains("[x]")) {
+
+                        edtNote.setText(sharedText);
+
+                        if (!isTodoMode) toggleMode();
+
+                        todoContainer.removeAllViews();
+                        for (String line : sharedText.split("\n")) {
+                            line = line.trim();
+                            if (line.startsWith("[ ]") || line.startsWith("[x]")) {
+                                boolean checked = line.startsWith("[x]");
+                                String content = line.substring(3).trim();
+                                addTodoItem(content, checked, false);
+                            }
+                        }
+
+                        if (todoContainer.getChildCount() == 0) {
+                            addTodoItem(null, false, true);
+                        }
+
+                        Toast.makeText(this, "Todo list imported", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    edtNote.setVisibility(View.VISIBLE);
+                    todoContainer.setVisibility(View.GONE);
+                    linAddItem.setVisibility(View.GONE);
+                    edtNote.setText(sharedText);
+
+                    Toast.makeText(this, "Note shared from another app", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
 
     private void addTodoItem(String text, Boolean isChecked, boolean focus) {
         View view = getLayoutInflater().inflate(R.layout.todo_item, todoContainer, false);
@@ -435,19 +462,23 @@ public class NoteActivity extends AppCompatActivity {
 
         btnToggleTodo.setVisibility(View.GONE);
 
-        if (alreadyAvailableNote.getNote() != null && alreadyAvailableNote.getNote().trim().startsWith("[")) {
+        String noteContent = alreadyAvailableNote.getNote();
+
+        if (noteContent != null && isValidTodoJson(noteContent)) {
             try {
                 isTodoMode = true;
                 edtNote.setVisibility(View.GONE);
                 todoContainer.setVisibility(View.VISIBLE);
                 linAddItem.setVisibility(View.INVISIBLE);
-                JSONArray array = new JSONArray(alreadyAvailableNote.getNote());
+
+                JSONArray array = new JSONArray(noteContent);
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject obj = array.getJSONObject(i);
                     String text = obj.getString("text");
                     boolean checked = obj.getBoolean("checked");
                     addTodoItem(text, checked, false);
                 }
+
                 if (todoContainer.getChildCount() > 0) {
                     View firstChild = todoContainer.getChildAt(0);
                     if (firstChild instanceof LinearLayout) {
@@ -457,14 +488,31 @@ public class NoteActivity extends AppCompatActivity {
                         }
                     }
                 }
+
             } catch (JSONException e) {
                 Log.e("NoteActivity", "Error parsing to-do JSON", e);
+                isTodoMode = false;
+                edtNote.setText(noteContent);
             }
         } else {
-            edtNote.setText(alreadyAvailableNote.getNote());
+            edtNote.setText(noteContent);
             edtNote.requestFocus();
         }
     }
+
+    private boolean isValidTodoJson(String content) {
+        try {
+            JSONArray array = new JSONArray(content);
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject obj = array.getJSONObject(i);
+                if (!obj.has("text") || !obj.has("checked")) return false;
+            }
+            return true;
+        } catch (JSONException e) {
+            return false;
+        }
+    }
+
 
     private void handleSaveOrExit() {
         String currentTitle = edtTitle.getText().toString().trim();
@@ -564,7 +612,11 @@ public class NoteActivity extends AppCompatActivity {
         textView.setTypeface(tf_bold);
 
         ImageView imgMore = findViewById(R.id.img_more);
-        imgMore.setOnClickListener(view -> bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED));
+        imgMore.setOnClickListener(view -> {
+            KeyboardUtils.hideKeyboard(this, edtNote);
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        }
+        );
 
         View outsideTouchView = findViewById(R.id.outside_touch_view);
         outsideTouchView.setOnTouchListener((view, motionEvent) -> {

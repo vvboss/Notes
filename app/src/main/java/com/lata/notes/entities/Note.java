@@ -27,8 +27,6 @@ public class Note implements Serializable {
     private String image;
     @ColumnInfo(name = "link") // not used
     private String link;
-    @ColumnInfo(name = "todo_list_json")
-    private String todoListJson;
     @ColumnInfo(name = "is_todo")
     private boolean isTodo;
 
@@ -62,7 +60,6 @@ public class Note implements Serializable {
     }
 
     public void setTodoListJson(String todoListJson) {
-        this.todoListJson = todoListJson;
     }
     public boolean isTodo() {
         return isTodo;
