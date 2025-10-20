@@ -7,8 +7,6 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -56,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
     private TextView tvSelectedCount, tvEmptyStateText;
     private EditText edtSearch;
     private ConstraintLayout conSearch;
-    private ImageView imgMore, imgMic, imgEmptystate;
+    private ImageView imgMore, imgMic, imgEmptystate, imgPin, imgShare, imgDelete;
     private LinearLayout selectionToolbar, linHeader, linEmptyState;
     private View horLine;
     private FloatingActionButton fab;
@@ -89,8 +87,8 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
         edtSearch.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_CHAR_LIMIT)});
 
         imgMore = findViewById(R.id.img_more);
-
         imgMic = findViewById(R.id.img_mic);
+
         imgMic.setOnClickListener(v -> {
             String searchText = edtSearch.getText().toString().trim();
             if (!searchText.isEmpty()) {
@@ -125,7 +123,19 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
         tvSelectedCount.setTypeface(typeface2);
 
         ImageView imgSelectAll = findViewById(R.id.img_select_all);
-        ImageView imgDelete = findViewById(R.id.img_delete);
+        imgPin = findViewById(R.id.img_pin);
+        imgShare = findViewById(R.id.img_share);
+        imgDelete = findViewById(R.id.img_delete);
+
+        imgSelectAll.setOnClickListener(v -> toggleSelectAll());
+
+        imgPin.setOnClickListener(v->{
+            Toast.makeText(getApplicationContext(), "Pin is clicked", Toast.LENGTH_SHORT).show();
+        });
+
+        imgShare.setOnClickListener(v->{
+            Toast.makeText(getApplicationContext(), "Share is clicked", Toast.LENGTH_SHORT).show();
+        });
 
         imgDelete.setOnClickListener(v -> {
             edtSearch.setText("");
@@ -134,8 +144,6 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
             notesAdapter.filter(currentQuery);
             deleteSelectedNotes();
         });
-
-        imgSelectAll.setOnClickListener(v -> toggleSelectAll());
 
         recyclerView = findViewById(R.id.notes_recycler_view);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
@@ -241,6 +249,9 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
     }
 
     private void clearSelectionMode() {
+        imgDelete.setVisibility(View.VISIBLE);
+        imgPin.setVisibility(View.VISIBLE);
+        imgShare.setVisibility(View.VISIBLE);
         isSelectionMode = false;
         selectedNotes.clear();
         updateSelectionUI();
@@ -271,18 +282,29 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
     }
 
     private void toggleSelectAll() {
-        if (selectedNotes.size() == noteList.size()) selectedNotes.clear();
+        if (selectedNotes.size() == noteList.size()) {
+            selectedNotes.clear();
+            imgPin.setVisibility(View.GONE);
+            imgShare.setVisibility(View.GONE);
+            imgDelete.setVisibility(View.GONE);
+        }
         else {
             selectedNotes.clear();
             selectedNotes.addAll(noteList);
+            imgPin.setVisibility(View.VISIBLE);
+            imgShare.setVisibility(View.VISIBLE);
+            imgDelete.setVisibility(View.VISIBLE);
         }
         updateSelectionUI();
         notesAdapter.setSelectedNotes(selectedNotes);
     }
 
+
     private void deleteSelectedNotes() {
         if (selectedNotes.isEmpty()) return;
+
         final List<Note> notesToDelete = new ArrayList<>(selectedNotes);
+
         @SuppressLint("StaticFieldLeak")
         class DeleteNotesTask extends AsyncTask<Void, Void, Void> {
             @Override
@@ -293,12 +315,18 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
                 }
                 return null;
             }
+
             @Override
             protected void onPostExecute(Void unused) {
                 int count = notesToDelete.size();
                 String message = count + " " + (count == 1 ? "note" : "notes") + " deleted";
 
-                snackbar = Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_INDEFINITE);
+                if (snackbar != null && snackbar.isShown()) {
+                    snackbar.dismiss();
+                }
+
+                snackbar = Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_LONG);
+                snackbar.setDuration(7000);
 
                 View snackbarView = snackbar.getView();
                 snackbarView.setBackgroundResource(R.drawable.snackbar_background);
@@ -326,6 +354,7 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
                             }
                             return null;
                         }
+
                         @Override
                         protected void onPostExecute(Void unused) {
                             getNotes(REQUEST_CODE_SHOW_NOTES);
@@ -334,17 +363,8 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
                     }
                     new RestoreNotesTask().execute();
                 });
-                snackbar.show();
 
-                new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    if (snackbar != null && snackbar.isShown()) {
-                        try {
-                            snackbar.dismiss();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, 10000);
+                snackbar.show();
 
                 clearSelectionMode();
                 getNotes(REQUEST_CODE_SHOW_NOTES);
@@ -353,6 +373,7 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
 
         new DeleteNotesTask().execute();
     }
+
 
 
     private void getNotes(final int requestCode) {

@@ -23,12 +23,10 @@ public class Note implements Serializable {
     private String color;
     @ColumnInfo(name = "last_updated")
     private long lastUpdated;
-    @ColumnInfo(name = "image") // not used
-    private String image;
-    @ColumnInfo(name = "link") // not used
-    private String link;
     @ColumnInfo(name = "is_todo")
     private boolean isTodo;
+    @ColumnInfo(name = "pin")
+    private boolean pinned = false;
 
 
     public int getId() { return id; }
@@ -49,12 +47,6 @@ public class Note implements Serializable {
     public long getLastUpdated() { return lastUpdated; }
     public void setLastUpdated(long lastUpdated) { this.lastUpdated = lastUpdated; }
 
-    public String getImage() { return image; } // not used
-    public void setImage(String image) { this.image = image; } // not used
-
-    public String getLink() { return link; } // not used
-    public void setLink(String link) { this.link = link; } // not used
-
     public String getTodoListJson() {
         return isTodo ? getNote() : null;
     }
@@ -67,6 +59,15 @@ public class Note implements Serializable {
     public void setTodo(boolean todo) {
         isTodo = todo;
     }
+
+    public boolean isPinned() {
+        return pinned;
+    }
+
+    public void setPinned(boolean pinned) {
+        this.pinned = pinned;
+    }
+
 
     @NonNull
     @Override
@@ -87,3 +88,6 @@ public class Note implements Serializable {
         return Objects.hash(id);
     }
 }
+
+
+

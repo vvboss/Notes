@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:padding="10dp"
+            android:padding="20dp"
             android:layout_marginBottom="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp">
@@ -39,7 +39,7 @@
                 android:text="@string/bottom_sheet_title"
                 android:textColor="@color/textAndIconColor"
                 android:textStyle="bold"
-                android:textSize="14sp"/>
+                android:textSize="16sp"/>
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
@@ -62,8 +62,8 @@
 
                         <View
                             android:id="@+id/viewColor0"
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:background="@drawable/background_note_color0" />
 
                         <ImageView
@@ -84,8 +84,8 @@
 
                         <View
                             android:id="@+id/viewColor1"
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:background="@drawable/background_note_color1"
                             android:importantForAccessibility="no" />
 
@@ -106,8 +106,8 @@
 
                         <View
                             android:id="@+id/viewColor2"
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:background="@drawable/background_note_color2"
                             android:importantForAccessibility="no" />
 
@@ -127,8 +127,8 @@
 
                         <View
                             android:id="@+id/viewColor3"
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:background="@drawable/background_note_color3" />
 
                         <ImageView
@@ -148,8 +148,8 @@
 
                         <View
                             android:id="@+id/viewColor4"
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:background="@drawable/background_note_color4"
                             android:importantForAccessibility="no" />
 
@@ -169,8 +169,8 @@
 
                         <View
                             android:id="@+id/viewColor5"
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:background="@drawable/background_note_color5"
                             android:importantForAccessibility="no" />
 
@@ -190,8 +190,8 @@
 
                         <View
                             android:id="@+id/viewColor6"
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:background="@drawable/background_note_color6" />
 
                         <ImageView
@@ -211,8 +211,8 @@
 
                         <View
                             android:id="@+id/viewColor7"
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:background="@drawable/background_note_color7" />
 
                         <ImageView
@@ -232,8 +232,8 @@
 
                         <View
                             android:id="@+id/viewColor8"
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:background="@drawable/background_note_color8" />
 
                         <ImageView
@@ -253,8 +253,8 @@
 
                         <View
                             android:id="@+id/viewColor9"
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:background="@drawable/background_note_color9" />
 
                         <ImageView

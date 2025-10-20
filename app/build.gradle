@@ -4,10 +4,10 @@ plugins {
 
 android {
     namespace 'com.lata.notes'
-    compileSdk 35
+    compileSdk 36
 
     defaultConfig {
-        applicationId "com.lanscape.organizer"
+        applicationId "com.lata.notes"
         minSdk 22
         targetSdk 34
         versionCode 1
