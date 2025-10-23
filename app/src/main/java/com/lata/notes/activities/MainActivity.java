@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.ColorStateList;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
     private TextView tvSelectedCount, tvEmptyStateText;
     private EditText edtSearch;
     private ConstraintLayout conSearch;
-    private ImageView imgMore, imgMic, imgEmptystate, imgPin, imgShare, imgDelete;
+    private ImageView imgMore, imgMic, imgEmptystate, imgPin, imgExport, imgDelete;
     private LinearLayout selectionToolbar, linHeader, linEmptyState;
     private View horLine;
     private FloatingActionButton fab;
@@ -89,26 +90,7 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
         imgMore = findViewById(R.id.img_more);
         imgMic = findViewById(R.id.img_mic);
 
-        imgMic.setOnClickListener(v -> {
-            String searchText = edtSearch.getText().toString().trim();
-            if (!searchText.isEmpty()) {
-                edtSearch.setText("");
-            } else {
-                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-                intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to search");
-
-                PackageManager pm = getPackageManager();
-                List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
-
-                if (!activities.isEmpty()) {
-                    startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT);
-                } else {
-                    Toast.makeText(MainActivity.this, "Speech recognition not available", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        imgMic.setOnClickListener(v -> voiceSearchOrClearText());
 
         fab = findViewById(R.id.floating_action_button);
         fab.setOnClickListener(view -> {
@@ -124,16 +106,14 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
 
         ImageView imgSelectAll = findViewById(R.id.img_select_all);
         imgPin = findViewById(R.id.img_pin);
-        imgShare = findViewById(R.id.img_share);
+        imgExport = findViewById(R.id.img_share);
         imgDelete = findViewById(R.id.img_delete);
 
         imgSelectAll.setOnClickListener(v -> toggleSelectAll());
 
-        imgPin.setOnClickListener(v->{
-            Toast.makeText(getApplicationContext(), "Pin is clicked", Toast.LENGTH_SHORT).show();
-        });
+        imgPin.setOnClickListener(v -> pinSelectedNotes()); //pin
 
-        imgShare.setOnClickListener(v->{
+        imgExport.setOnClickListener(v->{
             Toast.makeText(getApplicationContext(), "Share is clicked", Toast.LENGTH_SHORT).show();
         });
 
@@ -157,41 +137,11 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String query = s.toString().trim();
-                if (!isSelectionMode) {
-                    notesAdapter.setSearchQuery(query);
-                    notesAdapter.filter(query);
-                    if (query.isEmpty()) {
-                        if (noteList.isEmpty()) {
-                            linEmptyState.setVisibility(View.VISIBLE);
-                            tvEmptyStateText.setText(R.string.empty_notes_indication);
-                            imgEmptystate.setImageResource(R.drawable.notes_empty_state);
-                        } else {
-                            linEmptyState.setVisibility(View.GONE);
-                        }
-                    } else {
-                        if (notesAdapter.getItemCount() == 0) {
-                            linEmptyState.setVisibility(View.VISIBLE);
-                            tvEmptyStateText.setText(R.string.no_matches_found);
-                            imgEmptystate.setImageResource(R.drawable.ic_search);
-                        } else {
-                            linEmptyState.setVisibility(View.GONE);
-                        }
-                    }
-                }
-                if (!query.isEmpty()) {
-                    imgMic.setImageResource(R.drawable.ic_close_or_clear);
-                    fab.setVisibility(View.GONE);
-                } else {
-                    imgMic.setImageResource(R.drawable.ic_mic);
-                    if (!isSelectionMode) {
-                        fab.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-            @Override
             public void afterTextChanged(Editable s) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                setEdtSearch();
+            }
         });
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
@@ -212,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
         });
     }
 
+
     @Override
     public void onNoteClicked(Note note, int position) {
         if (isSelectionMode) toggleNoteSelection(note);
@@ -223,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
         }
     }
 
+    @Override
     public void onNoteLongClicked(Note note) {
         if (!isSelectionMode) {
             isSelectionMode = true;
@@ -231,10 +183,66 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
             if (view != null) {
                 KeyboardUtils.hideKeyboard(this, view);
             }
+            fab.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.hintAndIconLowContrastColor)));
             fab.animate().rotation(45f).setDuration(200).start();
             selectedNotes.add(note);
             updateSelectionUI();
             notesAdapter.setSelectedNotes(selectedNotes);
+        }
+    }
+
+    private void setEdtSearch() {
+        String query = edtSearch.getText().toString().trim();
+        if (!isSelectionMode) {
+            notesAdapter.setSearchQuery(query);
+            notesAdapter.filter(query);
+            if (query.isEmpty()) {
+                if (noteList.isEmpty()) {
+                    linEmptyState.setVisibility(View.VISIBLE);
+                    tvEmptyStateText.setText(R.string.empty_notes_indication);
+                    imgEmptystate.setImageResource(R.drawable.notes_empty_state);
+                } else {
+                    linEmptyState.setVisibility(View.GONE);
+                }
+            } else {
+                if (notesAdapter.getItemCount() == 0) {
+                    linEmptyState.setVisibility(View.VISIBLE);
+                    tvEmptyStateText.setText(R.string.no_matches_found);
+                    imgEmptystate.setImageResource(R.drawable.ic_search);
+                } else {
+                    linEmptyState.setVisibility(View.GONE);
+                }
+            }
+        }
+        if (!query.isEmpty()) {
+            imgMic.setImageResource(R.drawable.ic_close_or_clear);
+            fab.setVisibility(View.GONE);
+        } else {
+            imgMic.setImageResource(R.drawable.ic_mic);
+            if (!isSelectionMode) {
+                fab.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    private void voiceSearchOrClearText(){
+        String searchText = edtSearch.getText().toString().trim();
+        if (!searchText.isEmpty()) {
+            edtSearch.setText("");
+        } else {
+            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to search");
+
+            PackageManager pm = getPackageManager();
+            List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
+
+            if (!activities.isEmpty()) {
+                startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT);
+            } else {
+                Toast.makeText(MainActivity.this, "Speech recognition not available", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -251,12 +259,13 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
     private void clearSelectionMode() {
         imgDelete.setVisibility(View.VISIBLE);
         imgPin.setVisibility(View.VISIBLE);
-        imgShare.setVisibility(View.VISIBLE);
+        imgExport.setVisibility(View.VISIBLE);
         isSelectionMode = false;
         selectedNotes.clear();
         updateSelectionUI();
         notesAdapter.setSelectedNotes(selectedNotes);
         fab.animate().rotation(0f).setDuration(200).start();
+        fab.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent)));
         if(!edtSearch.getText().toString().trim().isEmpty()) {
             fab.setVisibility(View.GONE);
             edtSearch.requestFocus();
@@ -285,18 +294,52 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
         if (selectedNotes.size() == noteList.size()) {
             selectedNotes.clear();
             imgPin.setVisibility(View.GONE);
-            imgShare.setVisibility(View.GONE);
+            imgExport.setVisibility(View.GONE);
             imgDelete.setVisibility(View.GONE);
         }
         else {
             selectedNotes.clear();
             selectedNotes.addAll(noteList);
             imgPin.setVisibility(View.VISIBLE);
-            imgShare.setVisibility(View.VISIBLE);
+            imgExport.setVisibility(View.VISIBLE);
             imgDelete.setVisibility(View.VISIBLE);
         }
         updateSelectionUI();
         notesAdapter.setSelectedNotes(selectedNotes);
+    }
+
+    private void pinSelectedNotes(){
+        if (selectedNotes.isEmpty()) return;
+
+        List<Integer> noteIds = new ArrayList<>();
+        boolean shouldPin = false;
+
+        for (Note note : selectedNotes) {
+            noteIds.add(note.getId());
+            if (!note.isPinned()) shouldPin = true; // if any note isn’t pinned, we’ll pin all
+        }
+
+        boolean finalShouldPin = shouldPin;
+
+        @SuppressLint("StaticFieldLeak")
+        class PinNotesTask extends AsyncTask<Void, Void, Void> {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                NotesDatabase db = NotesDatabase.getDatabase(getApplicationContext());
+                db.noteDao().updatePinnedStatus(noteIds, finalShouldPin);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void unused) {
+                String message = finalShouldPin ? "Note(s) pinned" : "Note(s) unpinned";
+                Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+                clearSelectionMode();
+                getNotes(REQUEST_CODE_SHOW_NOTES);
+            }
+        }
+
+        new PinNotesTask().execute();
     }
 
 
@@ -370,7 +413,6 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
                 getNotes(REQUEST_CODE_SHOW_NOTES);
             }
         }
-
         new DeleteNotesTask().execute();
     }
 
@@ -381,7 +423,8 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
         class GetNotesTask extends AsyncTask<Void, Void, List<Note>> {
             @Override
             protected List<Note> doInBackground(Void... voids) {
-                return NotesDatabase.getDatabase(getApplicationContext()).noteDao().getAllNotes();
+                return NotesDatabase.getDatabase(getApplicationContext()).noteDao().getAllNotesOrdered(); //pin
+
             }
             @Override
             protected void onPostExecute(List<Note> notes) {

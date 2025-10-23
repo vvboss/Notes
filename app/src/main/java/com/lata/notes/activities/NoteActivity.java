@@ -541,6 +541,7 @@ public class NoteActivity extends AppCompatActivity {
                 }
             }
         }
+
         String currentColor = selectedNoteColor;
 
         if (alreadyAvailableNote != null) {
@@ -562,13 +563,19 @@ public class NoteActivity extends AppCompatActivity {
 
         if (alreadyAvailableNote != null) {
             note.setId(alreadyAvailableNote.getId());
+            note.setPinned(alreadyAvailableNote.isPinned()); //pin
         }
 
         @SuppressLint("StaticFieldLeak")
         class SaveNoteTask extends AsyncTask<Void, Void, Void> {
             @Override
             protected Void doInBackground(Void... voids) {
-                NotesDatabase.getDatabase(getApplicationContext()).noteDao().insertNote(note);
+                NotesDatabase db = NotesDatabase.getDatabase(getApplicationContext());
+                if (alreadyAvailableNote != null) {
+                    db.noteDao().updateNote(note); // update existing
+                } else {
+                    db.noteDao().insertNote(note); // insert new
+                }
                 return null;
             }
             @Override

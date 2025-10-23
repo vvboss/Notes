@@ -4,8 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingStart="6dp"
-    android:paddingEnd="6dp"
     android:paddingTop="2dp"
     android:paddingBottom="2dp">
 
@@ -23,7 +21,6 @@
         android:button="@drawable/ic_checked_state"
         android:background="@android:color/transparent"
         android:soundEffectsEnabled="false"
-        android:layout_marginStart="2dp"
         tools:ignore="TouchTargetSizeCheck" />
 
     <TextView
@@ -32,10 +29,9 @@
         android:layout_height="wrap_content"
         android:padding="2dp"
         android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
         android:layout_weight="1"
         android:textSize="14sp"
-        android:maxLines="2"
+        android:maxLines="3"
         android:ellipsize="end"
         android:textColor="@color/textAndIconColor" />
 </LinearLayout>

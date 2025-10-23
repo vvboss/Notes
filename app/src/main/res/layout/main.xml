@@ -200,8 +200,8 @@
 
         <ImageView
             android:id="@+id/img_empty_state"
-            android:layout_width="84dp"
-            android:layout_height="84dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_marginTop="20dp"
             android:layout_gravity="center"
             android:contentDescription="@string/empty_state_image_desc"
@@ -216,6 +216,7 @@
             android:textSize="14sp"
             android:textColor="@color/textAndIconColor"
             android:text="@string/empty_notes_indication" />
+
    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

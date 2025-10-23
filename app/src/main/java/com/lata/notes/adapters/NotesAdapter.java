@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -114,6 +115,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
         } else {
             holder.setDefaultBackground(currentNote);
         }
+
+        //pin
+        if (currentNote.isPinned()) {
+            holder.imgPin.setVisibility(View.VISIBLE);
+        } else {
+            holder.imgPin.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -124,6 +132,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     public static class NoteViewHolder extends RecyclerView.ViewHolder {
         TextView textTitle, textNote, textDate;
         LinearLayout layoutNote, todoContainer;
+        ImageView imgPin; //pin
 
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -132,6 +141,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
             textDate = itemView.findViewById(R.id.textDate);
             layoutNote = itemView.findViewById(R.id.layoutNote);
             todoContainer = itemView.findViewById(R.id.todoContainer);
+            imgPin = itemView.findViewById(R.id.img_pin); //pin
         }
 
         public void setNote(Note note, String query) {
@@ -215,7 +225,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
             }
         }
 
-
         private Spannable applyHighlight(Context context, String text, String query) {
             SpannableString spannable = new SpannableString(text);
             if (query != null && !query.trim().isEmpty()) {
@@ -245,9 +254,9 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
             else color = "#FFFFFF";
             drawable.setColor(Color.parseColor(color));
             if (color.equalsIgnoreCase("#FFFFFF"))
-                drawable.setStroke(dpToPx(1.2f, itemView), Color.parseColor("#BDBDBD"));
+                drawable.setStroke(dpToPx(1.5f, itemView), Color.parseColor("#BDBDBD"));
             else {
-                drawable.setStroke(dpToPx(1.2f, itemView), Color.parseColor(color));
+                drawable.setStroke(dpToPx(1.5f, itemView), Color.parseColor(color));
             }
             layoutNote.setBackground(drawable);
         }
@@ -256,7 +265,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
             GradientDrawable drawable = new GradientDrawable();
             drawable.setCornerRadius(dpToPx(10, itemView));
             drawable.setColor(ContextCompat.getColor(itemView.getContext(), R.color.selectedNoteBackground));
-            drawable.setStroke(dpToPx(1.6f, itemView), ContextCompat.getColor(itemView.getContext(), R.color.deleteIconColor));
+            drawable.setStroke(dpToPx(2f, itemView), ContextCompat.getColor(itemView.getContext(), R.color.hintAndIconLowContrastColor));
             layoutNote.setBackground(drawable);
         }
 

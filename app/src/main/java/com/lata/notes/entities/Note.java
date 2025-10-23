@@ -25,8 +25,8 @@ public class Note implements Serializable {
     private long lastUpdated;
     @ColumnInfo(name = "is_todo")
     private boolean isTodo;
-    @ColumnInfo(name = "pin")
-    private boolean pinned = false;
+    @ColumnInfo(name = "isPinned")
+    private boolean isPinned = false;
 
 
     public int getId() { return id; }
@@ -61,11 +61,11 @@ public class Note implements Serializable {
     }
 
     public boolean isPinned() {
-        return pinned;
+        return isPinned;
     }
 
     public void setPinned(boolean pinned) {
-        this.pinned = pinned;
+        this.isPinned = pinned;
     }
 
 
