@@ -45,6 +45,7 @@
                 android:id="@+id/img_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:contentDescription="@string/img_more_desc"
                 android:scaleType="center"
                 android:src="@drawable/ic_more" />

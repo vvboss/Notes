@@ -45,7 +45,7 @@ public class NoteActivity extends AppCompatActivity {
     private EditText lastFocusedEditText = null;
     private TextView textDate;
     private LinearLayout todoContainer, linAddItem;
-    private Typeface tf_bold, tf_regular;
+    private Typeface tf_regular;
     private ImageView btnToggleTodo;
     private boolean isTodoMode = false;
     private CoordinatorLayout coordinatorLayout;
@@ -74,7 +74,7 @@ public class NoteActivity extends AppCompatActivity {
         linAddItem = findViewById(R.id.lin_add_item);
         TextView textAddItemHint = findViewById(R.id.tv_add_item_hint);
 
-        tf_bold = Typeface.createFromAsset(getAssets(), "fonts/nexatext-extrabold.ttf");
+        Typeface tf_bold = Typeface.createFromAsset(getAssets(), "fonts/nexatext-extrabold.ttf");
         tf_regular = Typeface.createFromAsset(getAssets(), "fonts/nexatext-regular.ttf");
 
         edtTitle.setTypeface(tf_bold);
@@ -572,9 +572,9 @@ public class NoteActivity extends AppCompatActivity {
             protected Void doInBackground(Void... voids) {
                 NotesDatabase db = NotesDatabase.getDatabase(getApplicationContext());
                 if (alreadyAvailableNote != null) {
-                    db.noteDao().updateNote(note); // update existing
+                    db.noteDao().updateNote(note);
                 } else {
-                    db.noteDao().insertNote(note); // insert new
+                    db.noteDao().insertNote(note);
                 }
                 return null;
             }
@@ -610,13 +610,10 @@ public class NoteActivity extends AppCompatActivity {
 
     private void initMiscellaneous() {
         final FrameLayout bottomSheetContainer = findViewById(R.id.bottomSheetContainer);
-        final TextView textView = findViewById(R.id.textMiscellaneous);
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetContainer);
 
         bottomSheetBehavior.setHideable(true);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-
-        textView.setTypeface(tf_bold);
 
         ImageView imgMore = findViewById(R.id.img_more);
         imgMore.setOnClickListener(view -> {

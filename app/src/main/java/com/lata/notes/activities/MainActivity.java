@@ -131,6 +131,8 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
         notesAdapter = new NotesAdapter(noteList, this);
         recyclerView.setAdapter(notesAdapter);
 
+        imgMore.setOnClickListener(v-> recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)));
+
         getNotes(REQUEST_CODE_SHOW_NOTES);
 
         edtSearch.addTextChangedListener(new TextWatcher() {

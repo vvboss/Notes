@@ -254,9 +254,9 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
             else color = "#FFFFFF";
             drawable.setColor(Color.parseColor(color));
             if (color.equalsIgnoreCase("#FFFFFF"))
-                drawable.setStroke(dpToPx(1.5f, itemView), Color.parseColor("#BDBDBD"));
+                drawable.setStroke(dpToPx(1.3f, itemView), Color.parseColor("#BDBDBD"));
             else {
-                drawable.setStroke(dpToPx(1.5f, itemView), Color.parseColor(color));
+                drawable.setStroke(dpToPx(1.3f, itemView), Color.parseColor(color));
             }
             layoutNote.setBackground(drawable);
         }
