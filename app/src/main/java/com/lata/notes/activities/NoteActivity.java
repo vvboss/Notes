@@ -98,6 +98,47 @@ public class NoteActivity extends AppCompatActivity {
         imgShare.setOnClickListener(v -> shareNote());
 
         edtTitle.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_CHAR_LIMIT)});
+        setEdtTitleKeyListener();
+
+        linAddItem.setOnClickListener(v -> {
+            if (lastFocusedEditText == null) {
+                addTodoItem("", false, true);
+                return;
+            }
+
+            String currentText = lastFocusedEditText.getText().toString().trim();
+            if (!currentText.isEmpty()) {
+                EditText empty = getFirstEmptyTodoEditText();
+                if (empty == null) {
+                    addTodoItem("", false, true);
+                } else {
+                    empty.requestFocus();
+                    linAddItem.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                } else {
+                    handleSaveOrExit();
+                }
+            }
+        });
+
+        findViewById(R.id.img_close).setOnClickListener(view -> {
+            KeyboardUtils.hideKeyboard(this, edtTitle);
+            finish();
+        });
+
+        initMiscellaneous();
+        setNoteBackgroundColor();
+    }
+
+    private void setEdtTitleKeyListener(){
         edtTitle.setOnKeyListener((v, keyCode, event) -> {
             if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                 if (isTodoMode) {
@@ -137,43 +178,6 @@ public class NoteActivity extends AppCompatActivity {
             }
             return false;
         });
-
-        linAddItem.setOnClickListener(v -> {
-            if (lastFocusedEditText == null) {
-                addTodoItem("", false, true);
-                return;
-            }
-
-            String currentText = lastFocusedEditText.getText().toString().trim();
-            if (!currentText.isEmpty()) {
-                EditText empty = getFirstEmptyTodoEditText();
-                if (empty == null) {
-                    addTodoItem("", false, true);
-                } else {
-                    empty.requestFocus();
-                    linAddItem.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
-
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-                } else {
-                    handleSaveOrExit();
-                }
-            }
-        });
-
-        findViewById(R.id.img_close).setOnClickListener(view -> {
-            KeyboardUtils.hideKeyboard(this, edtTitle);
-            finish();
-        });
-
-        initMiscellaneous();
-        setNoteBackgroundColor();
     }
 
     private void toggleMode() {
@@ -563,7 +567,7 @@ public class NoteActivity extends AppCompatActivity {
 
         if (alreadyAvailableNote != null) {
             note.setId(alreadyAvailableNote.getId());
-            note.setPinned(alreadyAvailableNote.isPinned()); //pin
+            note.setPinned(alreadyAvailableNote.isPinned());
         }
 
         @SuppressLint("StaticFieldLeak")
@@ -619,8 +623,7 @@ public class NoteActivity extends AppCompatActivity {
         imgMore.setOnClickListener(view -> {
             KeyboardUtils.hideKeyboard(this, edtNote);
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        }
-        );
+        });
 
         View outsideTouchView = findViewById(R.id.outside_touch_view);
         outsideTouchView.setOnTouchListener((view, motionEvent) -> {

@@ -2,6 +2,7 @@ package com.lata.notes.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.ColorStateList;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
     private TextView tvSelectedCount, tvEmptyStateText;
     private EditText edtSearch;
     private ConstraintLayout conSearch;
-    private ImageView imgMore, imgMic, imgEmptystate, imgPin, imgExport, imgDelete;
+    private ImageView imgMore, imgMic, imgEmptystate, imgPin, imgDelete; //imgExport
     private LinearLayout selectionToolbar, linHeader, linEmptyState;
     private View horLine;
     private FloatingActionButton fab;
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
     private boolean isSelectionMode = false;
     private final List<Note> selectedNotes = new ArrayList<>();
     final int MAX_CHAR_LIMIT = 100;
+    private int click = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,16 +108,11 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
 
         ImageView imgSelectAll = findViewById(R.id.img_select_all);
         imgPin = findViewById(R.id.img_pin);
-        imgExport = findViewById(R.id.img_share);
         imgDelete = findViewById(R.id.img_delete);
 
         imgSelectAll.setOnClickListener(v -> toggleSelectAll());
 
-        imgPin.setOnClickListener(v -> pinSelectedNotes()); //pin
-
-        imgExport.setOnClickListener(v->{
-            Toast.makeText(getApplicationContext(), "Share is clicked", Toast.LENGTH_SHORT).show();
-        });
+        imgPin.setOnClickListener(v -> pinSelectedNotes());  
 
         imgDelete.setOnClickListener(v -> {
             edtSearch.setText("");
@@ -131,7 +128,32 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
         notesAdapter = new NotesAdapter(noteList, this);
         recyclerView.setAdapter(notesAdapter);
 
-        imgMore.setOnClickListener(v-> recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)));
+        SharedPreferences prefs = getSharedPreferences("view_mode", MODE_PRIVATE);
+        click = prefs.getInt("layout_mode", 0);
+
+        if (click == 1) {
+            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+            imgMore.setImageResource(R.drawable.ic_grid_view);
+        } else {
+            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+            imgMore.setImageResource(R.drawable.ic_list_view);
+        }
+
+        imgMore.setOnClickListener(v -> {
+            if (click == 0) {
+                imgMore.setImageResource(R.drawable.ic_grid_view);
+                recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+                click = 1;
+            } else {
+                imgMore.setImageResource(R.drawable.ic_list_view);
+                recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+                click = 0;
+            }
+
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("layout_mode", click);
+            editor.apply();
+        });
 
         getNotes(REQUEST_CODE_SHOW_NOTES);
 
@@ -261,7 +283,7 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
     private void clearSelectionMode() {
         imgDelete.setVisibility(View.VISIBLE);
         imgPin.setVisibility(View.VISIBLE);
-        imgExport.setVisibility(View.VISIBLE);
+        //imgExport.setVisibility(View.VISIBLE);
         isSelectionMode = false;
         selectedNotes.clear();
         updateSelectionUI();
@@ -296,14 +318,14 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
         if (selectedNotes.size() == noteList.size()) {
             selectedNotes.clear();
             imgPin.setVisibility(View.GONE);
-            imgExport.setVisibility(View.GONE);
+            //imgExport.setVisibility(View.GONE);
             imgDelete.setVisibility(View.GONE);
         }
         else {
             selectedNotes.clear();
             selectedNotes.addAll(noteList);
             imgPin.setVisibility(View.VISIBLE);
-            imgExport.setVisibility(View.VISIBLE);
+            //imgExport.setVisibility(View.VISIBLE);
             imgDelete.setVisibility(View.VISIBLE);
         }
         updateSelectionUI();
@@ -318,7 +340,7 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
 
         for (Note note : selectedNotes) {
             noteIds.add(note.getId());
-            if (!note.isPinned()) shouldPin = true; // if any note isn’t pinned, we’ll pin all
+            if (!note.isPinned()) shouldPin = true;
         }
 
         boolean finalShouldPin = shouldPin;
@@ -418,14 +440,12 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
         new DeleteNotesTask().execute();
     }
 
-
-
     private void getNotes(final int requestCode) {
         @SuppressLint("StaticFieldLeak")
         class GetNotesTask extends AsyncTask<Void, Void, List<Note>> {
             @Override
             protected List<Note> doInBackground(Void... voids) {
-                return NotesDatabase.getDatabase(getApplicationContext()).noteDao().getAllNotesOrdered(); //pin
+                return NotesDatabase.getDatabase(getApplicationContext()).noteDao().getAllNotesOrdered();  
 
             }
             @Override

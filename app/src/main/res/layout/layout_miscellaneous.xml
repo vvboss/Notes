@@ -265,8 +265,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:visibility="gone"
             android:background="@drawable/background_miscellaneous"
-            android:backgroundTint="#E0e0e0"
+            android:backgroundTint="#eee"
             android:orientation="horizontal"
             android:padding="14dp">
 
