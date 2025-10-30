@@ -38,7 +38,7 @@ Material Components
 
 ##### Installation
 
-1. Clone this repository : git clone https://github.com/yourusername/Note-Taking-and-Todo-App.git
+1. Clone this repository : git clone https://github.com/vvboss/Notes.git
 2. Open in Android Studio
 3. Build and run on your device or emulator
 
@@ -57,7 +57,7 @@ For major changes, please open an issue first to discuss what you’d like to im
 ##### Author
 
 Vigneshvaran A
-arumugamprema69@gmail.com
+-> arumugamprema69@gmail.com
 
 Don’t forget to star this repo if you like it!
 
