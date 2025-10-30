@@ -6,11 +6,11 @@ Built with Java and XML, it offers a smooth, minimal experience to stay organize
 
 ##### Features
 
-✍️ Create, edit, and delete notes easily
-✅ Add, manage, and mark to-dos as completed
-📌 Pin important notes to the top
-🔄 Auto-save and real-time updates
-📤 Share notes with other apps
+- Create, edit, and delete notes easily
+- Add, manage, and mark to-dos as completed
+- Pin important notes to the top
+- Auto-save and real-time updates
+- Share notes with other apps
 
 ##### Tech Stack
 
@@ -38,17 +38,16 @@ Material Components
 
 ##### Installation
 
-1. Clone this repository :
-2. git clone https://github.com/yourusername/Note-Taking-and-Todo-App.git
-3. Open in Android Studio
-4. Build and run on your device or emulator
+1. Clone this repository : git clone https://github.com/yourusername/Note-Taking-and-Todo-App.git
+2. Open in Android Studio
+3. Build and run on your device or emulator
 
 ##### Future Enhancements
 
-☁️ Cloud sync and backup
-🔔 Reminder notifications
-📂 Folder and tag organization
-🧠 AI-powered note suggestions
+- Cloud sync and backup
+- Reminder notifications
+- Folder and tag organization
+- AI-powered note suggestions
 
 ##### Contributing
 
@@ -58,8 +57,9 @@ For major changes, please open an issue first to discuss what you’d like to im
 ##### Author
 
 Vigneshvaran A
-📧 arumugamprema69@gmail.com
-⭐ Don’t forget to star this repo if you like it!
+arumugamprema69@gmail.com
+
+Don’t forget to star this repo if you like it!
 
 
 
