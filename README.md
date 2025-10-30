@@ -38,10 +38,10 @@ Material Components
 
 ##### Installation
 
-1. Clone this repository
-git clone https://github.com/yourusername/Note-Taking-and-Todo-App.git
-2. Open in Android Studio
-3. Build and run on your device or emulator
+1. Clone this repository :
+2. git clone https://github.com/yourusername/Note-Taking-and-Todo-App.git
+3. Open in Android Studio
+4. Build and run on your device or emulator
 
 ##### Future Enhancements
 
