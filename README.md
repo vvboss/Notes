@@ -14,14 +14,9 @@ Built with Java and XML, it offers a smooth, minimal experience to stay organize
 
 ##### Tech Stack
 
-Language: Java
-UI: XML layouts
-Database: Room
-Libraries:
-AndroidX Components
-RecyclerView
-ViewModel & LiveData
-Material Components
+- Language: Java
+- UI: XML layouts
+- Database: Room
 
 ##### Sample Screenshots
 
